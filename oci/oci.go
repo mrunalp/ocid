@@ -154,3 +154,11 @@ func (c *Container) Labels() map[string]string {
 func (c *Container) Sandbox() string {
 	return c.sandbox
 }
+
+// NetNsPath returns the path to the network namespace of the container.
+func (c *Container) NetNsPath() (string, error) {
+	if c.state == nil {
+		return "", fmt.Errorf("container state is not populated")
+	}
+	return fmt.Sprintf("/proc/%d/ns/net", c.state.Pid), nil
+}
